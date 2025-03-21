@@ -114,7 +114,7 @@ class TestUserViews:
     def test_logout(self, client, test_user):
         """Testa se o logout funciona corretamente"""
         client.login(username='test@example.com', password='testpassword')
-        response = client.get(reverse('clientes:logout'))
+        response = client.post(reverse('clientes:logout'))
         assert response.status_code == 302
         assert response.url == '/'
     

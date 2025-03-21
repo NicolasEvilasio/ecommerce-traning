@@ -40,7 +40,10 @@
                                     </a>
                                 {% endif %}
                             {% endwith %}
-                            <a href="{% url 'clientes:logout' %}" class="btn btn-sm btn-outline-danger">Sair</a>
+                            <form method="post" action="{% url 'clientes:logout' %}" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-sm btn-outline-danger">Sair</button>
+                            </form>
                         </div>
                     {% else %}
                     <li>
