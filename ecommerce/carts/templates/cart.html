@@ -5,24 +5,51 @@
 {% block content %}
 <div class="container">
     <div class="row">
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>Produto</th>
-                    <th>Quantidade</th>
-                </tr>
-            </thead>
-            {% for item in cart.order_set.all %}
-               <tr>
-                <td>
-                    <img width="45" height="45" src="{{ item.product.imagem.url }}" alt="">
-                </td>
-                <td>{{ item.product }}</td>
-                <td>{{ item.quantity }}</td>
-               </tr> 
-            {% endfor %}
-        </table>
+        <div class="col-12">
+            <h2>Seu Carrinho</h2>
+            {% if cart.order_set.all %}
+                <table class="table table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Produto</th>
+                            <th>Nome</th>
+                            <th>Preço Unitário</th>
+                            <th>Quantidade</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in cart.order_set.all %}
+                        <tr>
+                            <td style="width: 80px;">
+                                <img width="60" height="60" src="{{ item.product.imagem.url }}" alt="{{ item.product.nome }}" class="img-thumbnail">
+                            </td>
+                            <td>{{ item.product.nome }}</td>
+                            <td>R$ {{ item.product.discounted_price }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>R$ {{ item.total }}</td>
+                        </tr> 
+                        {% endfor %}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4" class="text-right"><strong>Total</strong></td>
+                            <td>
+                                <strong>R$ {{ cart.total }}</strong>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <div class="text-right mt-3">
+                    <a href="{% url 'produtos:listar_produtos' %}" class="btn btn-primary">Continuar Comprando</a>
+                    <button class="btn btn-success">Finalizar Compra</button>
+                </div>
+            {% else %}
+                <div class="alert alert-info">
+                    Seu carrinho está vazio. <a href="{% url 'produtos:listar_produtos' %}">Continuar comprando</a>
+                </div>
+            {% endif %}
+        </div>
     </div>
 </div>
-
 {% endblock %}
